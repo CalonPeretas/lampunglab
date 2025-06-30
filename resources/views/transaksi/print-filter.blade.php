@@ -80,8 +80,8 @@
 <div class="header">
     <img src="{{ asset('images/logo.png') }}" alt="Logo">
     <h2>Lampung Dental Laboratory</h2>
-    <p>Jl. Contoh Alamat No. 123, Bandar Lampung</p>
-    <p>Telp: (0721) 123456 | Email: info@lampungdental.com</p>
+    <p>Dusun 3 Taman Sari, Jalan Family,Hajimena,Lampung Selatan</p>
+    <p>Hp: (0812) 7189 6805 | Instagram: @dental_lab_lampung</p>
 </div>
 
 <div class="info">

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JenisGigiController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\PembukuanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,19 +37,17 @@ Route::middleware('auth')->group(function () {
     // 🦷 Modul Jenis Gigi
     Route::resource('/jenis-gigi', JenisGigiController::class);
 
-    // 📄 Fitur Tambahan Transaksi (letakkan SEBELUM resource)
+    // 💳 Modul Transaksi
+    Route::get('/transaksi/print-filter', [TransaksiController::class, 'cetakFilter'])->name('transaksi.print.filter');
     Route::get('/transaksi/rekap', [TransaksiController::class, 'rekap'])->name('transaksi.rekap');
     Route::get('/transaksi/cetak', [TransaksiController::class, 'cetak'])->name('transaksi.cetak');
-    Route::get('/transaksi/print-filter', [TransaksiController::class, 'cetakFilter'])->name('transaksi.print.filter');
     Route::get('/transaksi/{transaksi}/nota', [TransaksiController::class, 'cetakNota'])->name('transaksi.nota');
-
-    // 💳 Modul Transaksi (harus diletakkan setelah custom route)
     Route::resource('/transaksi', TransaksiController::class);
 
     // 📚 Modul Pembukuan
-    Route::get('/pembukuan', [TransaksiController::class, 'pembukuan'])->name('pembukuan.index');
+    Route::resource('/pembukuan', PembukuanController::class)->except(['show']);
+    Route::get('/pembukuan/print', [PembukuanController::class, 'print'])->name('pembukuan.print');
 });
-
 
 // 🛡️ Autentikasi (Login, Register, dll)
 require __DIR__.'/auth.php';

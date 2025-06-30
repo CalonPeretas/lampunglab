@@ -109,8 +109,8 @@
         <img src="{{ asset('images/logo.png') }}" alt="Logo Lab Gigi">
         <div class="header-text">
             <h2>Lampung Dental Laboratory</h2>
-            <p>Jl. Contoh Alamat No. 123, Bandar Lampung</p>
-            <p>Telp: (0721) 123456 | Email: info@lampungdental.com</p>
+            <p>Dusun 3 Taman Sari, Jalan Family,Hajimena,Lampung Selatan</p>
+            <p>Hp: (0812) 7189 6805 | Instagram: @dental_lab_lampung</p>
         </div>
     </div>
 
@@ -134,18 +134,25 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $hargaUnit = $transaksi->jenisGigi->harga ?? 0;
+                    $jumlah = $transaksi->jumlah;
+                    $totalHarga = $hargaUnit * $jumlah;
+                    $ongkir = $transaksi->ongkir ?? 0;
+                    $grandTotal = $totalHarga + $ongkir;
+                @endphp
                 <tr>
                     <td>{{ $transaksi->jenisGigi->nama ?? '-' }}</td>
-                    <td>{{ $transaksi->jumlah }}</td>
-                    <td>Rp{{ number_format($transaksi->jenisGigi->harga ?? 0, 0, ',', '.') }}</td>
-                    <td>Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
+                    <td>{{ $jumlah }}</td>
+                    <td>Rp{{ number_format($hargaUnit, 0, ',', '.') }}</td>
+                    <td>Rp{{ number_format($totalHarga, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="total">Total Harga Transaksi: Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}</div>
-        <div class="total">Ongkir: Rp{{ number_format($transaksi->ongkir ?? 0, 0, ',', '.') }}</div>
-        <div class="total">Grand Total: Rp{{ number_format($transaksi->total_harga + ($transaksi->ongkir ?? 0), 0, ',', '.') }}</div>
+        <div class="total">Total Harga Transaksi: Rp{{ number_format($totalHarga, 0, ',', '.') }}</div>
+        <div class="total">Ongkir: Rp{{ number_format($ongkir, 0, ',', '.') }}</div>
+        <div class="total">Total Pembayaran: Rp{{ number_format($grandTotal, 0, ',', '.') }}</div>
     </div>
 
     {{-- FOOTER --}}

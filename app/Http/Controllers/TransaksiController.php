@@ -49,7 +49,7 @@ class TransaksiController extends Controller
         ]);
 
         $jenisGigi = JenisGigi::findOrFail($request->jenis_gigi_id);
-        $totalHarga = ($jenisGigi->harga * $request->jumlah) + ($request->ongkir ?? 0);
+        $totalHarga = $jenisGigi->harga * $request->jumlah;
 
         Transaksi::create([
             'dokter_id' => $request->dokter_id,
@@ -83,7 +83,7 @@ class TransaksiController extends Controller
         ]);
 
         $jenisGigi = JenisGigi::findOrFail($request->jenis_gigi_id);
-        $totalHarga = ($jenisGigi->harga * $request->jumlah) + ($request->ongkir ?? 0);
+        $totalHarga = $jenisGigi->harga * $request->jumlah;
 
         $transaksi->update([
             'dokter_id' => $request->dokter_id,
@@ -113,8 +113,13 @@ class TransaksiController extends Controller
     public function cetak()
     {
         $transaksis = Transaksi::with(['dokter', 'jenisGigi'])->get();
-        return view('transaksi.cetak', compact('transaksis'));
+        $totalPendapatan = $transaksis->sum(function ($trx) {
+         return $trx->total_harga + ($trx->ongkir ?? 0); // jika ada ongkir
+        });
+
+        return view('transaksi.cetak', compact('transaksis', 'totalPendapatan'));
     }
+
 
     public function cetakFilter(Request $request)
     {
