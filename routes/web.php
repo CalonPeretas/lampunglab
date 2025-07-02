@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JenisGigiController;
@@ -47,6 +48,12 @@ Route::middleware('auth')->group(function () {
     // 📚 Modul Pembukuan
     Route::resource('/pembukuan', PembukuanController::class)->except(['show']);
     Route::get('/pembukuan/print', [PembukuanController::class, 'print'])->name('pembukuan.print');
+});
+
+// 🛠️ Route sementara untuk menjalankan migrate
+Route::get('/migrate', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return '✅ Migrasi database berhasil!';
 });
 
 // 🛡️ Autentikasi (Login, Register, dll)
